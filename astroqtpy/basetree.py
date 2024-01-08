@@ -232,6 +232,29 @@ class BaseTree(abc.ABC):
         sys.stdout = stdout_
         
         f.close()
+    
+    def print_all_points_uniform(self) -> None:
+        """Print all points in a uniform grid.
+
+        Print all current quadtree points to a file in a uniform grid.
+        """
+        stdout_ = sys.stdout
+        f = open(self.filename_points, 'w')
+        sys.stdout = f
+        
+        # Get all points from all node in the quadtree
+        allpoints = self.root.get_points()
+
+        # Get the x and y values of the points
+        allx = [point.x for point in allpoints]
+        ally = [point.y for point in allpoints]
+        allvalues = [point.value for point in allpoints]
+
+        # Make the above lists into one 3D array
+        allpoints = np.array([allx, ally, allvalues])
+
+        # Save the array to a file
+        np.savetxt(self.filename_points.split('.')+"_uniform.npy", allpoints)
         
     
     def print_all_nodes(self) -> None:

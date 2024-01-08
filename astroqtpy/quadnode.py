@@ -145,6 +145,24 @@ class QuadNode():
             
         return self.node_value
     
+    def get_points(self) -> list:
+        """Get points.
+        
+        Convenience function to grab all points contained within this node.
+        
+        Returns:
+            list: List of QuadPoint objects.
+        """
+        allpoints = []
+        if self._is_split():
+            self.child_nw.get_points()
+            self.child_ne.get_points()
+            self.child_sw.get_points()
+            self.child_se.get_points()
+        else:
+            allpoints.extend(self.node_points)
+        
+        return allpoints
     
     def _is_split(self) -> None:
         """Is split.
@@ -171,7 +189,6 @@ class QuadNode():
             
             for point in self.node_points:
                 print(f"{point.x:.5f}\t{point.y:.5f}\t{point.value}\t")
-          
           
     def print_node_value(self, statistic: str) -> None:
         """Print node value.
